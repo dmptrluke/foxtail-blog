@@ -1,10 +1,10 @@
 from django.contrib import admin
-from markdownx.admin import MarkdownxModelAdmin
+from django.contrib.admin import ModelAdmin
 
 from .models import Post
 
 
-class PostAdmin(MarkdownxModelAdmin):
+class PostAdmin(ModelAdmin):
     fieldsets = (
         ('Content', {
             'fields': ('title', 'tags', 'author', 'text')

@@ -4,8 +4,8 @@ from django.conf import settings
 from django.db.models import TextField
 from markdown import markdown
 
-EXTENSIONS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSIONS', [])
-EXTENSION_CONFIGS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS', [])
+EXTENSIONS = getattr(settings, 'MARKDOWN_EXTENSIONS', [])
+EXTENSION_CONFIGS = getattr(settings, 'MARKDOWN_EXTENSION_CONFIGS', [])
 
 
 class NullValidator:
