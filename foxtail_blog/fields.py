@@ -1,7 +1,7 @@
 import bleach
 import bleach_whitelist
 from django.conf import settings
-from markdownx.models import MarkdownxField
+from django.db.models import TextField
 from markdown import markdown
 
 EXTENSIONS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSIONS', [])
@@ -32,7 +32,7 @@ class ClassyValidator:
     sanitize = True
 
 
-class MarkdownField(MarkdownxField):
+class MarkdownField(TextField):
     def __init__(self, rendered_field=None, validator=StandardValidator):
         self.rendered_field = rendered_field
         self.validator = validator

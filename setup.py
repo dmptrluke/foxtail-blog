@@ -6,11 +6,11 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="foxtail-blog",
-    version="0.1.2",
+    version="0.1.3",
     author="Luke Rogers",
     author_email="lukeroge@gmail.com",
     description="A blog.",
-    install_requires=['django>=2.2', 'bleach', 'bleach_whitelist', 'markdown', 'django-markdownx', 'django-taggit'],
+    install_requires=['django>=2.2', 'bleach', 'bleach_whitelist', 'markdown', 'django-taggit'],
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dmptrluke/foxtail-blog",
