@@ -10,7 +10,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100, help_text="100 characters or fewer.")
     slug = models.SlugField(unique=True, help_text="Changing this value after initial creation will break existing "
                                                    "post URLs. Must be unique.")
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     author = models.CharField(max_length=50, help_text="50 characters or fewer.")
     created = models.DateTimeField(auto_now_add=True, verbose_name="date created")
