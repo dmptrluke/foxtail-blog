@@ -1,6 +1,8 @@
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.views import generic
 
+from django.db.models import Count
+
 from .models import Post
 
 
@@ -13,6 +15,7 @@ class BlogListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sidebar_post_list'] = Post.objects.all()[:5]
+        context['sidebar_tag_list'] = Post.tags.annotate(num_times=Count('taggit_taggeditem_items'))
         return context
 
     def get_queryset(self):
