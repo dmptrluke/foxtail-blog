@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from taggit.managers import TaggableManager
@@ -30,3 +31,18 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog_detail', kwargs={'slug': self.slug})
+
+
+class Comment(models.Model):
+    post = models.ForeignKey('foxtail_blog.Post',
+                             on_delete=models.CASCADE, related_name='comments')
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE, )
+
+    text = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text
