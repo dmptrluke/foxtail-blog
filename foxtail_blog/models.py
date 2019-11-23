@@ -13,6 +13,8 @@ class Post(models.Model):
                                                    "post URLs. Must be unique.")
     tags = TaggableManager(blank=True)
 
+    allow_comments = models.BooleanField(default=True)
+
     author = models.CharField(max_length=50, help_text="50 characters or fewer.")
     created = models.DateTimeField(auto_now_add=True, verbose_name="date created")
     modified = models.DateTimeField(auto_now=True, verbose_name="date modified")
@@ -31,3 +33,18 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog_detail', kwargs={'slug': self.slug})
+
+
+class Comment(models.Model):
+    post = models.ForeignKey('foxtail_blog.Post',
+                             on_delete=models.CASCADE, related_name='comments')
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE, )
+
+    text = models.TextField(max_length=280, help_text="280 characters or fewer.")
+    created_date = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text

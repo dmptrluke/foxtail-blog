@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.template.defaultfilters import truncatechars
+from django.urls import reverse
+from django.utils.html import format_html
 
-from .models import Post
+from .models import Post, Comment
 
 
 class PostAdmin(ModelAdmin):
@@ -13,8 +16,7 @@ class PostAdmin(ModelAdmin):
             'fields': ('image',),
         }),
         ('Advanced options', {
-            'classes': ('collapse',),
-            'fields': ('slug',),
+            'fields': ('slug', 'allow_comments'),
         }),
     )
 
@@ -26,4 +28,20 @@ class PostAdmin(ModelAdmin):
         return u", ".join(o.name for o in obj.tags.all())
 
 
+class CommentAdmin(ModelAdmin):
+    list_display = ('text_preview', 'post_link', 'author', 'created_date')
+
+    def post_link(self, obj):
+        return format_html('<a href="{}">{}</a>',
+                           reverse("admin:foxtail_blog_post_change", args=(obj.post.pk,)),
+                           obj.post.title)
+
+    def text_preview(self, obj):
+        return truncatechars(obj.text, 50)
+
+    text_preview.short_description = "Comment"
+    post_link.short_description = "Post"
+
+
 admin.site.register(Post, PostAdmin)
+admin.site.register(Comment, CommentAdmin)
