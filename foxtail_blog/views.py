@@ -90,7 +90,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         comment = self.get_object()
 
-        if not comment.author == request.user or not request.user.has_perm('foxtail_blog.delete_comment'):
+        if not (comment.author == request.user or request.user.has_perm('foxtail_blog.delete_comment')):
             return HttpResponseForbidden()
 
         slug = comment.post.slug
