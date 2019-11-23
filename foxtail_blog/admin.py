@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 
-from .models import Post, Comment
+from .models import Post
 
 
 class PostAdmin(ModelAdmin):
@@ -26,9 +26,4 @@ class PostAdmin(ModelAdmin):
         return u", ".join(o.name for o in obj.tags.all())
 
 
-class CommentAdmin(ModelAdmin):
-    pass
-
-
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment, CommentAdmin)

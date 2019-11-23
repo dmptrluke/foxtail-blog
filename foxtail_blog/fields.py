@@ -1,5 +1,9 @@
+from functools import partial
+from urllib.parse import urlparse
+
 import bleach
 import bleach_whitelist
+from bleach.linkifier import LinkifyFilter
 from django.conf import settings
 from django.db.models import TextField
 from markdown import markdown
@@ -32,6 +36,18 @@ class ClassyValidator:
     sanitize = True
 
 
+def set_target(attrs, new=False):
+    p = urlparse(attrs[(None, 'href')])
+    c = urlparse(settings.SITE_URL)
+    if p.netloc != c.netloc:
+        attrs[(None, 'target')] = '_blank'
+        attrs[(None, 'class')] = 'external'
+        attrs[(None, 'rel')] = 'nofollow'
+    else:
+        attrs.pop((None, 'target'), None)
+    return attrs
+
+
 class MarkdownField(TextField):
     def __init__(self, rendered_field=None, validator=StandardValidator):
         self.rendered_field = rendered_field
@@ -51,7 +67,10 @@ class MarkdownField(TextField):
         )
 
         if self.validator.sanitize:
-            clean = bleach.clean(dirty, self.validator.allowed_tags, self.validator.allowed_attrs)
+            cleaner = bleach.Cleaner(tags=self.validator.allowed_tags,
+                                     attributes=self.validator.allowed_attrs,
+                                     filters=[partial(LinkifyFilter, callbacks=[set_target])])
+            clean = cleaner.clean(dirty)
             setattr(model_instance, self.rendered_field, clean)
         else:
             # danger!
