@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.db.models import TextField
+from django.forms import Textarea
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.html import format_html
@@ -19,6 +21,10 @@ class PostAdmin(ModelAdmin):
             'fields': ('slug', 'allow_comments'),
         }),
     )
+
+    formfield_overrides = {
+        TextField: {'widget': Textarea(attrs={'rows': 40, 'cols': 120})},
+    }
 
     prepopulated_fields = {"slug": ("title",)}
     list_filter = ('created', 'tags', 'author')
