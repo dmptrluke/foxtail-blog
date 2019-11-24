@@ -4,7 +4,7 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
-from .fields import MarkdownField, ClassyValidator
+from .fields import MarkdownField, ClassyValidator, RenderedMarkdownField
 
 
 class Post(models.Model):
@@ -23,7 +23,7 @@ class Post(models.Model):
     image_ppoi = PPOIField()
 
     text = MarkdownField(rendered_field='text_rendered', validator=ClassyValidator)
-    text_rendered = models.TextField(blank=True)
+    text_rendered = RenderedMarkdownField()
 
     class Meta:
         ordering = ['-pk']

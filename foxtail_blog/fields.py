@@ -61,6 +61,13 @@ def set_target(attrs, new=False):
     return attrs
 
 
+class RenderedMarkdownField(TextField):
+    def __init__(self, *args, **kwargs):
+        kwargs['editable'] = False
+        kwargs['blank'] = False
+        super().__init__(*args, **kwargs)
+
+
 class MarkdownField(TextField):
     def __init__(self, rendered_field=None, validator=StandardValidator):
         self.rendered_field = rendered_field
