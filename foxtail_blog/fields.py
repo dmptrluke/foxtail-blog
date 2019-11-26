@@ -69,10 +69,12 @@ class RenderedMarkdownField(TextField):
 
 
 class MarkdownField(TextField):
-    def __init__(self, rendered_field=None, validator=StandardValidator):
+    def __init__(self, *args, rendered_field=None, validator=StandardValidator, **kwargs):
         self.rendered_field = rendered_field
         self.validator = validator
-        super(MarkdownField, self).__init__()
+        kwargs['help_text'] = 'This field supports <a href="https://commonmark.org/help/" target="_blank"' \
+                              '>Markdown</a> formatting.'
+        super().__init__(*args, **kwargs)
 
     def pre_save(self, model_instance, add):
         value = super(MarkdownField, self).pre_save(model_instance, add)
