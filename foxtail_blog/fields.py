@@ -40,6 +40,10 @@ class ClassyValidator:
 
 
 def set_target(attrs, new=False):
+    """
+    This is kinda weird and ugly, but that's how bleach linkify filters work.
+    TODO: redo this all.
+    """
     try:
         p = urlparse(attrs[(None, 'href')])
     except KeyError:
@@ -54,8 +58,8 @@ def set_target(attrs, new=False):
     c = urlparse(settings.SITE_URL)
     if p.netloc != c.netloc:
         attrs[(None, 'target')] = '_blank'
-        attrs[(None, 'class')] = 'external'
-        attrs[(None, 'rel')] = 'nofollow'
+        attrs[(None, 'class')] = attrs.get((None, 'class'), '') + ' external'
+        attrs[(None, 'rel')] = 'nofollow noopener noreferrer'
     else:
         attrs.pop((None, 'target'), None)
     return attrs
