@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.db.models import Count
@@ -7,8 +8,12 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, DeleteView
 
-from .forms import CommentForm
 from .models import Post, Comment
+
+COMMENTS_ENABLED = getattr(settings, 'BLOG_COMMENTS', False)
+
+if COMMENTS_ENABLED:
+    from .forms import CommentForm
 
 
 class BlogListView(ListView):
@@ -51,14 +56,26 @@ class BlogDetailView(DetailView):
     template_name = 'blog/detail.html'
     queryset = Post.objects.prefetch_related('comments__author').prefetch_related('tags').all()
 
-    def get_context_data(self, form=CommentForm(), **kwargs):
+    def get_context_data(self, form=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sidebar_post_list'] = Post.objects.all()[:5]
         context['sidebar_tag_list'] = Post.tags.most_common()[:8]
-        context['form'] = form
+
+        if COMMENTS_ENABLED:
+            context['comments_enabled'] = True
+            if form:
+                context['form'] = form
+            else:
+                context['form'] = CommentForm()
+        else:
+            context['comments_enabled'] = False
+
         return context
 
     def post(self, request, *args, **kwargs):
+        if not COMMENTS_ENABLED:
+            return HttpResponseForbidden()
+
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
 
