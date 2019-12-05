@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="foxtail-blog",
-    version="0.4.1",
+    version="0.5.1",
     author="Luke Rogers",
     author_email="lukeroge@gmail.com",
     description="A blog.",

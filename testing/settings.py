@@ -1,6 +1,6 @@
 import django
 
-SECRET_KEY="fake"
+SECRET_KEY = "fake"
 
 DATABASES = {
     'default': {
