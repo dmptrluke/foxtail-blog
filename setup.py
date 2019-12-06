@@ -6,12 +6,17 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="foxtail-blog",
-    version="0.6.0",
+    version="0.6.1",
     author="Luke Rogers",
     author_email="lukeroge@gmail.com",
     description="A blog.",
     install_requires=['django>=2.2', 'bleach', 'bleach_whitelist', 'markdown', 'django-taggit',
                       'django-versatileimagefield', 'django-crispy-forms', 'django-recaptcha'],
+    extras_require={
+        ':python_version == "3.6"': [
+            'dataclasses',
+        ],
+    },
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dmptrluke/foxtail-blog",
@@ -23,5 +28,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
 )
