@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="foxtail-blog",
-    version="0.5.1",
+    version="0.6.0",
     author="Luke Rogers",
     author_email="lukeroge@gmail.com",
     description="A blog.",
@@ -23,5 +23,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
 )

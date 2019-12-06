@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from functools import partial
 from urllib.parse import urlparse
 
@@ -8,35 +9,45 @@ from django.conf import settings
 from django.db.models import TextField
 from markdown import markdown
 
+from typing import List
+
 EXTENSIONS = getattr(settings, 'MARKDOWN_EXTENSIONS', [])
 EXTENSION_CONFIGS = getattr(settings, 'MARKDOWN_EXTENSION_CONFIGS', [])
 
 
-class NullValidator:
-    sanitize = False
+@dataclass
+class Validator:
+    """ defines a standard format for markdown validators """
+    allowed_tags: List[str]
+    allowed_attrs: dict
+    sanitize: bool
 
 
-class StandardValidator:
-    allowed_tags = bleach_whitelist.markdown_tags + ['pre', 'dl', 'del', 'abbr']
-    allowed_attrs = {
+VALIDATOR_NULL = Validator(
+    allowed_tags=[],
+    allowed_attrs={},
+    sanitize=False
+)
+
+VALIDATOR_STANDARD = Validator(
+    allowed_tags=bleach_whitelist.markdown_tags + ['pre', 'dl', 'del', 'abbr'],
+    allowed_attrs={
         **bleach_whitelist.markdown_attrs,
         'abbr': ['title']
-    }
-    sanitize = True
+    },
+    sanitize=True
+)
 
-
-class ClassyValidator:
-    """
-    A few less restrictions to allow for fancier pages.
-    """
-    allowed_tags = bleach_whitelist.markdown_tags + ['pre', 'dl', 'del', 'abbr']
-    allowed_attrs = {
+VALIDATOR_CLASSY = Validator(
+    allowed_tags=bleach_whitelist.markdown_tags + ['pre', 'dl', 'del', 'abbr'],
+    allowed_attrs={
         **bleach_whitelist.markdown_attrs,
         'abbr': ['title'],
         'img': ['src', 'alt', 'title', 'class'],
         'a': ['href', 'alt', 'title', 'name', 'class']
-    }
-    sanitize = True
+    },
+    sanitize=True
+)
 
 
 def set_target(attrs, new=False):
@@ -73,7 +84,7 @@ class RenderedMarkdownField(TextField):
 
 
 class MarkdownField(TextField):
-    def __init__(self, *args, rendered_field=None, validator=StandardValidator, **kwargs):
+    def __init__(self, *args, rendered_field=None, validator=VALIDATOR_STANDARD, **kwargs):
         self.rendered_field = rendered_field
         self.validator = validator
         kwargs['help_text'] = 'This field supports <a href="https://commonmark.org/help/" target="_blank"' \
