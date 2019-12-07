@@ -4,7 +4,8 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
-from .fields import MarkdownField, RenderedMarkdownField, VALIDATOR_CLASSY
+from markdownfield.fields import MarkdownField, RenderedMarkdownField
+from markdownfield.validators import VALIDATOR_CLASSY
 
 
 class Post(models.Model):

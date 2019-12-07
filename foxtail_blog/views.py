@@ -5,7 +5,6 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, DeleteView
 
 from .models import Post, Comment
