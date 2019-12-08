@@ -30,8 +30,9 @@ class PostAdmin(ModelAdmin):
     list_filter = ('created', 'tags', 'author')
     list_display = ('title', 'tag_list', 'created', 'modified', 'author')
 
-    def tag_list(self, obj):
-        return u", ".join(o.name for o in obj.tags.all())
+    @staticmethod
+    def tag_list(obj):
+        return ", ".join(o.name for o in obj.tags.all().order_by('name'))
 
 
 class CommentAdmin(ModelAdmin):
