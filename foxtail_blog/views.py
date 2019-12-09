@@ -79,23 +79,24 @@ class BlogDetailView(DetailView):
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
 
-        post = self.get_object()
+        # noinspection PyAttributeOutsideInit
+        self.object = self.get_object()
 
-        if not post.allow_comments:
+        if not self.object.allow_comments:
             return HttpResponseForbidden()
 
         form = CommentForm(request.POST)
 
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.post = post
+            comment.post = self.object
             comment.author = request.user
             comment.save()
             messages.success(self.request, 'Your comment has been posted!')
-            return redirect('blog_detail', slug=post.slug)
+            return redirect('blog_detail', slug=self.object.slug)
         else:
             messages.error(self.request, 'There was a problem posting your comment.')
-            context = self.get_context_data(form=form, object=post)
+            context = self.get_context_data(form=form, object=self.object)
 
         return self.render_to_response(context)
 
