@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from taggit.managers import TaggableManager
-from versatileimagefield.fields import VersatileImageField, PPOIField
 
 from markdownfield.fields import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
+from taggit.managers import TaggableManager
+from versatileimagefield.fields import PPOIField, VersatileImageField
 
 
 class Post(models.Model):

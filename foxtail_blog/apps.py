@@ -8,4 +8,4 @@ class BlogConfig(AppConfig):
     def ready(self):
         # import signal handlers
         # noinspection PyUnresolvedReferences
-        import foxtail_blog.signals
+        import foxtail_blog.signals  # noqa: F401

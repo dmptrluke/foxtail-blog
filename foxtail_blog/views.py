@@ -1,13 +1,13 @@
-from django.contrib import messages
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import DeleteView, DetailView, ListView
 
-from .models import Post, Comment
+from .models import Comment, Post
 
 COMMENTS_ENABLED = getattr(settings, 'BLOG_COMMENTS', False)
 
@@ -115,3 +115,6 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         comment.delete()
         messages.success(self.request, 'Your comment has been deleted.')
         return redirect('blog_detail', slug=slug)
+
+
+__all__ = ['BlogListView', 'BlogDetailView', 'CommentDeleteView']

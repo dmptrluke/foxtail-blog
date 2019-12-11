@@ -6,7 +6,7 @@ from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .models import Post, Comment
+from .models import Comment, Post
 
 
 class PostAdmin(ModelAdmin):

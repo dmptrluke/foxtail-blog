@@ -1,8 +1,9 @@
+from django.conf import settings
+from django.forms import ModelForm, Textarea
+
 from captcha.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
-from django.conf import settings
-from django.forms import ModelForm, Textarea
 
 from .models import Comment
 
