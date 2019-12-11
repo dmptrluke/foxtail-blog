@@ -1,13 +1,17 @@
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.html import strip_tags
 
 from .models import Post
 
+FEED_TITLE = getattr(settings, 'BLOG_FEED_TITLE', "Blog")
+FEED_DESCRIPTION = getattr(settings, 'BLOG_FEED_DESCRIPTION', "Updates from our blog.")
+
 
 class LatestEntriesFeed(Feed):
-    title = "Latest News"
+    title = FEED_TITLE
     link = "/blog/"
-    description = "Updates from furry.nz."
+    description = FEED_DESCRIPTION
 
     def items(self):
         return Post.objects.order_by('-created')[:20]
