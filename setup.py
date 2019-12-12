@@ -3,15 +3,26 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+version = {}
+with open("./foxtail_blog/version.py") as fp:
+    exec(fp.read(), version)
+
+install_requires = [
+    'django>=2.2',
+    'django-markdownfield',
+    'django-taggit',
+    'django-versatileimagefield',
+    'django-crispy-forms',
+    'django-recaptcha'
+]
 
 setuptools.setup(
     name="foxtail-blog",
-    version="0.8.1",
+    version=version['__version__'],
     author="Luke Rogers",
     author_email="lukeroge@gmail.com",
     description="A blog.",
-    install_requires=['django>=2.2', 'django-markdownfield', 'django-taggit',
-                      'django-versatileimagefield', 'django-crispy-forms', 'django-recaptcha'],
+    install_requires=install_requires,
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dmptrluke/foxtail-blog",
