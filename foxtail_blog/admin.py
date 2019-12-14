@@ -1,7 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-from django.db.models import TextField
-from django.forms import Textarea
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.html import format_html
@@ -22,10 +20,6 @@ class PostAdmin(ModelAdmin):
         }),
     )
 
-    formfield_overrides = {
-        TextField: {'widget': Textarea(attrs={'rows': 40, 'cols': 120})},
-    }
-
     prepopulated_fields = {"slug": ("title",)}
     list_filter = ('created', 'tags', 'author')
     list_display = ('title', 'tag_list', 'created', 'modified', 'author')
@@ -37,6 +31,7 @@ class PostAdmin(ModelAdmin):
 
 class CommentAdmin(ModelAdmin):
     list_display = ('text_preview', 'post_link', 'author', 'created_date')
+    raw_id_fields = ('author',)
 
     def post_link(self, obj):
         return format_html('<a href="{}">{}</a>',
