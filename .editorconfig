@@ -5,7 +5,7 @@ charset=utf-8
 indent_size=4
 
 [*.py]
-insert_final_newline=true
+insert_final_newline=fffftrue
 indent_style=space
 
 [*.{scss,css}]
