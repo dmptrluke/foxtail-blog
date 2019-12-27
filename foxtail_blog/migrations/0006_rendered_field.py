@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-from markdownfield.fields import RenderedMarkdownField
+from markdownfield.models import RenderedMarkdownField
 
 
 class Migration(migrations.Migration):

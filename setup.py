@@ -9,7 +9,7 @@ with open("./foxtail_blog/version.py") as fp:
 
 install_requires = [
     'django>=2.2',
-    'django-markdownfield',
+    'django-markdownfield>=0.3',
     'django-taggit',
     'django-versatileimagefield',
     'django-crispy-forms',

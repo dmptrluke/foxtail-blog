@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
-from markdownfield.fields import MarkdownField, RenderedMarkdownField
+from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
 from taggit.managers import TaggableManager
 from versatileimagefield.fields import PPOIField, VersatileImageField

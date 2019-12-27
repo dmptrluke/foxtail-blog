@@ -23,7 +23,7 @@ class CommentForm(ModelForm):
 
         self.helper.layout = Layout(
             'text',
-            'captcha',
+            'captcha' if settings.RECAPTCHA_ENABLED else None,
             Submit('submit', 'Post Comment')
         )
 
