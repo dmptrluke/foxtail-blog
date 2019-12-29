@@ -13,7 +13,8 @@ install_requires = [
     'django-taggit',
     'django-versatileimagefield',
     'django-crispy-forms',
-    'django-recaptcha'
+    'django-recaptcha',
+    'django-csp-helpers'
 ]
 
 setuptools.setup(

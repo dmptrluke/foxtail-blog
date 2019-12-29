@@ -66,7 +66,10 @@ class BlogDetailView(DetailView):
             if form:
                 context['form'] = form
             else:
-                context['form'] = CommentForm()
+                if hasattr(self.request, 'csp_nonce'):
+                    context['form'] = CommentForm(csp_nonce=self.request.csp_nonce)
+                else:
+                    context['form'] = CommentForm()
         else:
             context['comments_enabled'] = False
 
@@ -85,7 +88,10 @@ class BlogDetailView(DetailView):
         if not self.object.allow_comments:
             return HttpResponseForbidden()
 
-        form = CommentForm(request.POST)
+        if hasattr(self.request, 'csp_nonce'):
+            form = CommentForm(request.POST, csp_nonce=self.request.csp_nonce)
+        else:
+            form = CommentForm(request.POST)
 
         if form.is_valid():
             comment = form.save(commit=False)

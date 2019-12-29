@@ -4,11 +4,12 @@ from django.forms import ModelForm, Textarea
 from captcha.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
+from csp_helpers.mixins import CSPFormMixin
 
 from .models import Comment
 
 
-class CommentForm(ModelForm):
+class CommentForm(CSPFormMixin, ModelForm):
     if settings.RECAPTCHA_ENABLED:
         captcha = ReCaptchaField()
 
