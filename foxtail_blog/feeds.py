@@ -2,6 +2,8 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.html import strip_tags
 
+from published.utils import queryset_filter
+
 from .models import Post
 
 FEED_TITLE = getattr(settings, 'BLOG_FEED_TITLE', "Blog")
@@ -14,7 +16,7 @@ class LatestEntriesFeed(Feed):
     description = FEED_DESCRIPTION
 
     def items(self):
-        return Post.objects.order_by('-created')[:20]
+        return queryset_filter(Post.objects).order_by('-created')[:20]
 
     def item_title(self, item):
         return item.title
