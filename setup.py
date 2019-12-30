@@ -14,7 +14,8 @@ install_requires = [
     'django-versatileimagefield',
     'django-crispy-forms',
     'django-recaptcha',
-    'django-csp-helpers'
+    'django-csp-helpers',
+    'django-published'
 ]
 
 setuptools.setup(

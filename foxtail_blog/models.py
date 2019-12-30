@@ -4,11 +4,12 @@ from django.urls import reverse
 
 from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
+from published.models import PublishedAbstractModel
 from taggit.managers import TaggableManager
 from versatileimagefield.fields import PPOIField, VersatileImageField
 
 
-class Post(models.Model):
+class Post(PublishedAbstractModel):
     title = models.CharField(max_length=100, help_text="100 characters or fewer.")
     slug = models.SlugField(unique=True, help_text="Changing this value after initial creation will break existing "
                                                    "post URLs. Must be unique.")

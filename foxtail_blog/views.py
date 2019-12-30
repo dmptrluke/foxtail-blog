@@ -7,6 +7,9 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.views.generic import DeleteView, DetailView, ListView
 
+from published.mixins import PublishedDetailMixin, PublishedListMixin
+from published.utils import queryset_filter
+
 from .models import Comment, Post
 
 COMMENTS_ENABLED = getattr(settings, 'BLOG_COMMENTS', False)
@@ -15,7 +18,7 @@ if COMMENTS_ENABLED:
     from .forms import CommentForm
 
 
-class BlogListView(ListView):
+class BlogListView(PublishedListMixin, ListView):
     model = Post
     paginate_by = 10
     context_object_name = 'posts'
@@ -23,12 +26,15 @@ class BlogListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sidebar_post_list'] = Post.objects.all()[:5]
-        context['sidebar_tag_list'] = Post.tags.annotate(num_times=Count('taggit_taggeditem_items')).\
-            order_by('-num_times')[:8]
+        context['sidebar_post_list'] = queryset_filter(Post.objects).all()[:5]
+        context['sidebar_tag_list'] = Post.tags.annotate(
+            num_times=Count('taggit_taggeditem_items')
+        ).order_by('-num_times')[:8]
         return context
 
     def get_queryset(self):
+        queryset = super().get_queryset()
+
         q = self.request.GET.get('q')
         tag = self.request.GET.get('tag')
 
@@ -36,29 +42,29 @@ class BlogListView(ListView):
             # user is doing a search query
             query = SearchQuery(q)
             vector = SearchVector('text', 'title')
-            queryset = self.model.objects.annotate(rank=SearchRank(vector, query)) \
+            queryset = queryset.annotate(rank=SearchRank(vector, query)) \
                 .prefetch_related('tags') \
                 .order_by('-rank')
 
         elif tag:
             # user is doing a tag query
-            queryset = self.model.objects \
+            queryset = queryset \
                 .prefetch_related('tags') \
                 .filter(tags__slug__in=[tag])
         else:
-            queryset = self.model.objects.prefetch_related('tags').all()
+            queryset = queryset.prefetch_related('tags').all()
 
         return queryset
 
 
-class BlogDetailView(DetailView):
+class BlogDetailView(PublishedDetailMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     queryset = Post.objects.prefetch_related('comments__author').prefetch_related('tags').all()
 
     def get_context_data(self, form=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sidebar_post_list'] = Post.objects.all()[:5]
+        context['sidebar_post_list'] = queryset_filter(Post.objects.all())[:5]
         context['sidebar_tag_list'] = Post.tags.most_common()[:8]
 
         if COMMENTS_ENABLED:
