@@ -4,8 +4,8 @@ from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.html import format_html
 
-from published.admin import PublishedAdmin
-from published.admin_helpers import add_to_fieldsets, add_to_list_display, add_to_readonly_fields
+from published.admin import (PublishedAdmin, add_to_fieldsets,
+                             add_to_list_display, add_to_readonly_fields)
 
 from .models import Comment, Post
 

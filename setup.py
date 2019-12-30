@@ -15,7 +15,7 @@ install_requires = [
     'django-crispy-forms',
     'django-recaptcha',
     'django-csp-helpers',
-    'django-published'
+    'django-published>=0.5.0'
 ]
 
 setuptools.setup(
