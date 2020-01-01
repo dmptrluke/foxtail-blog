@@ -20,7 +20,7 @@ classifiers = [
 author = "Luke Rogers"
 author-email = "luke@dmptr.com"
 home-page = "https://github.com/dmptrluke/foxtail-blog"
-requires-python=">-3.6"
+requires-python=">=3.6"
 requires = [
     'django>=2.2',
     'django-markdownfield>=0.3',
