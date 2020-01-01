@@ -1,0 +1,41 @@
+[build-system]
+requires = ["flit_core >=2,<3"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+dist-name = "foxtail-blog"
+module = "foxtail_blog"
+description-file = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Development Status :: 4 - Beta",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+author = "Luke Rogers"
+author-email = "luke@dmptr.com"
+home-page = "https://github.com/dmptrluke/foxtail-blog"
+requires-python=">-3.6"
+requires = [
+    'django>=2.2',
+    'django-markdownfield>=0.3',
+    'django-taggit',
+    'django-versatileimagefield',
+    'django-crispy-forms',
+    'django-recaptcha',
+    'django-csp-helpers',
+    'django-published>=0.5.0'
+]
+
+[tool.isort]
+line_length = 100
+skip_glob = "*/node_modules/*,*/.tox/*,*/.git/*"
+balanced_wrapping = true
+known_third_party = ["captcha", "crispy_forms", "csp_helpers", "markdownfield", "published", "taggit", "versatileimagefield"]
+known_django = ["django"]
+sections = ["FUTURE","STDLIB","DJANGO","THIRDPARTY","FIRSTPARTY","LOCALFOLDER"]
