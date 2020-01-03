@@ -23,7 +23,7 @@ home-page = "https://github.com/dmptrluke/foxtail-blog"
 requires-python=">=3.6"
 requires = [
     'django>=2.2',
-    'django-markdownfield>=0.5.2',
+    'django-markdownfield>=0.6.0',
     'django-taggit',
     'django-versatileimagefield',
     'django-crispy-forms',

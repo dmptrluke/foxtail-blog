@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-from markdownfield.models import RenderedMarkdownField
+from markdownfield.models import MarkdownField, RenderedMarkdownField
 
 
 class Migration(migrations.Migration):
@@ -15,6 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='post',
             name='text_rendered',
-            field=RenderedMarkdownField(editable=False),
+            field=RenderedMarkdownField(),
+        ),
+        migrations.AlterField(
+            model_name='post',
+            name='text',
+            field=MarkdownField(rendered_field='text_rendered'),
         ),
     ]
