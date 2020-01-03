@@ -68,6 +68,7 @@ class BlogDetailView(PublishedDetailMixin, DetailView):
         context['sidebar_tag_list'] = Post.tags.most_common()[:8]
 
         if COMMENTS_ENABLED:
+            context['comment_list'] = self.object.comments.all()
             context['comments_enabled'] = True
             if form:
                 context['form'] = form
