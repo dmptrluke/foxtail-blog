@@ -1,4 +1,4 @@
 """ A simple blog for Django """
-__version__ = '0.12.2'
+__version__ = '0.13.0'
 
 default_app_config = "foxtail_blog.apps.BlogConfig"

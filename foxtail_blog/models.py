@@ -34,7 +34,7 @@ class Post(PublishedAbstractModel):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog_detail', kwargs={'slug': self.slug})
+        return reverse('blog:detail', kwargs={'slug': self.slug})
 
 
 class Comment(models.Model):

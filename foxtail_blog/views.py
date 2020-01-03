@@ -105,7 +105,7 @@ class BlogDetailView(PublishedDetailMixin, DetailView):
             comment.author = request.user
             comment.save()
             messages.success(self.request, 'Your comment has been posted!')
-            return redirect('blog_detail', slug=self.object.slug)
+            return redirect('blog:detail', slug=self.object.slug)
         else:
             messages.error(self.request, 'There was a problem posting your comment.')
             context = self.get_context_data(form=form, object=self.object)
@@ -126,7 +126,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         slug = comment.post.slug
         comment.delete()
         messages.success(self.request, 'Your comment has been deleted.')
-        return redirect('blog_detail', slug=slug)
+        return redirect('blog:detail', slug=slug)
 
 
 __all__ = ['BlogListView', 'BlogDetailView', 'CommentDeleteView']
