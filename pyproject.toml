@@ -23,7 +23,7 @@ home-page = "https://github.com/dmptrluke/foxtail-blog"
 requires-python=">=3.6"
 requires = [
     'django>=2.2',
-    'django-markdownfield>=0.3',
+    'django-markdownfield>=0.5.2',
     'django-taggit',
     'django-versatileimagefield',
     'django-crispy-forms',
@@ -32,10 +32,26 @@ requires = [
     'django-published>=0.6.0'
 ]
 
+[tool.flit.metadata.requires-extra]
+test = [
+    'flit==2.1.0',
+    'atoma==0.0.17',
+    'coverage==5.0.1',
+    'factory-boy==2.12.0',
+    'django-environ==0.4.5',
+    'pytest==5.3.2',
+    'pytest-cov==2.8.1',
+    'pytest-django==3.7.0',
+    'pytest-factoryboy==2.0.3',
+    'pytest-xdist==1.31.0',
+    'selenium==3.141.0',
+    'tox==3.14.3',
+]
+
 [tool.isort]
 line_length = 100
 skip_glob = "*/node_modules/*,*/.tox/*,*/.git/*"
 balanced_wrapping = true
-known_third_party = ["captcha", "crispy_forms", "csp_helpers", "markdownfield", "published", "taggit", "versatileimagefield"]
+known_third_party = ["captcha", "crispy_forms", "csp_helpers", "environ", "factory", "markdownfield", "published", "pytest", "pytest_factoryboy", "taggit", "versatileimagefield"]
 known_django = ["django"]
 sections = ["FUTURE","STDLIB","DJANGO","THIRDPARTY","FIRSTPARTY","LOCALFOLDER"]

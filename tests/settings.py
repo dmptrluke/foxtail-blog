@@ -1,11 +1,20 @@
+from pathlib import Path
+
 import django
 
+from environ import environ
+
 SECRET_KEY = "fake"
+BASE_DIR = Path(__file__).resolve(strict=True).parents[1]
+
+env = environ.Env()
+environ.Env.read_env(str(BASE_DIR / '.env'))
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-    }
+    'default': env.db(
+        'DATABASE_URL',
+        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3')
+    )
 }
 
 INSTALLED_APPS = (
@@ -21,7 +30,7 @@ INSTALLED_APPS = (
     'foxtail_blog',
 )
 
-ROOT_URLCONF = 'testing.urls'
+ROOT_URLCONF = 'tests.urls'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
