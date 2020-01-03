@@ -28,7 +28,7 @@ class Post(PublishedAbstractModel):
     text_rendered = RenderedMarkdownField()
 
     class Meta:
-        ordering = ['-pk']
+        ordering = ['-created']
 
     def __str__(self):
         return self.title
