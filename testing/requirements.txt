@@ -1,4 +1,4 @@
-django~=2.2.9
+django~=3.0.2
 atoma
 pytest
 pytest-django
