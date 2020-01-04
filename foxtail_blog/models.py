@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils.functional import cached_property
+from django.utils.html import strip_tags
+from django.utils.text import Truncator
 
 from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
@@ -36,12 +39,13 @@ class Post(PublishedAbstractModel):
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'slug': self.slug})
 
-    @property
+    @cached_property
     def structured_data(self):
         url = settings.SITE_URL + self.get_absolute_url()
         data = {
             '@type': 'BlogPosting',
             'headline': self.title,
+            'description': Truncator(strip_tags(self.text_rendered)).chars(200),
             'author': {
                 '@type': 'Person',
                 'name': self.author
