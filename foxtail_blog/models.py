@@ -36,6 +36,14 @@ class Post(PublishedAbstractModel):
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'slug': self.slug})
 
+    @property
+    def structured_data(self):
+        return {
+            '@type': 'BlogPosting',
+            'title': self.title,
+            'url': settings.SITE_URL + self.get_absolute_url()
+        }
+
 
 class Comment(models.Model):
     post = models.ForeignKey('foxtail_blog.Post',
