@@ -38,11 +38,27 @@ class Post(PublishedAbstractModel):
 
     @property
     def structured_data(self):
-        return {
+        url = settings.SITE_URL + self.get_absolute_url()
+        data = {
             '@type': 'BlogPosting',
-            'title': self.title,
-            'url': settings.SITE_URL + self.get_absolute_url()
+            'headline': self.title,
+            'author': {
+                '@type': 'Person',
+                'name': self.author
+            },
+            'datePublished': self.created.strftime('%Y-%m-%d'),
+            'dateModified': self.modified.strftime('%Y-%m-%d'),
+            'publisher': None,
+            'url': url,
+            'mainEntityOfPage': {
+                '@type': 'WebPage',
+                '@id': url
+            },
         }
+        if self.image:
+            data['image'] = settings.SITE_URL + self.image.url
+
+        return data
 
 
 class Comment(models.Model):
