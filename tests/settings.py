@@ -5,6 +5,7 @@ import django
 from environ import environ
 
 SECRET_KEY = "fake"
+SITE_ID = 1
 BASE_DIR = Path(__file__).resolve(strict=True).parents[1]
 
 env = environ.Env()
@@ -16,6 +17,9 @@ DATABASES = {
         default='sqlite:///' + str(BASE_DIR / 'db.sqlite3')
     )
 }
+
+USE_TZ = True
+TIME_ZONE = 'UTC'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -31,6 +35,7 @@ INSTALLED_APPS = (
 )
 
 ROOT_URLCONF = 'tests.urls'
+RECAPTCHA_ENABLED = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -42,5 +47,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+BLOG_FEED_TITLE = "Chocolate"
+BLOG_FEED_DESCRIPTION = "Ice Cream"
+BLOG_COMMENTS = True
 
 django.setup()
