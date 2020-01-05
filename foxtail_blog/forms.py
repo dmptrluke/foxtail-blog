@@ -30,7 +30,7 @@ class CommentForm(CSPFormMixin, ModelForm):
         self.helper.layout = Layout(
             'text',
             'captcha' if settings.RECAPTCHA_ENABLED else None,
-            Submit('Post', 'Post Comment')
+            Submit('Post Comment', 'Post Comment')
         )
 
     class Meta:
