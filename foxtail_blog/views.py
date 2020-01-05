@@ -64,7 +64,7 @@ class BlogDetailView(PublishedDetailMixin, DetailView):
 
     def get_context_data(self, form=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sidebar_post_list'] = queryset_filter(Post.objects.all())[:5]
+        context['sidebar_post_list'] = queryset_filter(Post.objects.all())[:3]
         context['sidebar_tag_list'] = Post.tags.most_common()[:8]
 
         if COMMENTS_ENABLED:
