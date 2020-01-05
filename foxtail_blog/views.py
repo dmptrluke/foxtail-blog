@@ -26,7 +26,7 @@ class BlogListView(PublishedListMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sidebar_post_list'] = queryset_filter(Post.objects).all()[:5]
+        context['sidebar_post_list'] = queryset_filter(Post.objects).all()[:3]
         context['sidebar_tag_list'] = Post.tags.annotate(
             num_times=Count('taggit_taggeditem_items')
         ).order_by('-num_times')[:8]
