@@ -39,10 +39,14 @@ class BlogListView(PublishedListMixin, ListView):
         tag = self.request.GET.get('tag')
 
         if q:
-            # user is doing a search query
-            query = SearchQuery(q)
-            vector = SearchVector('text', 'title')
-            queryset = queryset.annotate(rank=SearchRank(vector, query)) \
+            vector = SearchVector('title', weight='A', config='english') + \
+                SearchVector('text', weight='B', config='english')
+
+            query = SearchQuery(q, config='english')
+            rank = SearchRank(vector, query, weights=[0.2, 0.4, 0.6, 0.8])
+
+            queryset = queryset.annotate(rank=rank) \
+                .filter(rank__gte=0.01) \
                 .prefetch_related('tags') \
                 .order_by('-rank')
 
