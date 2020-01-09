@@ -27,6 +27,8 @@ class Post(PublishedAbstractModel):
     image = VersatileImageField(upload_to='blog', blank=True, null=True, ppoi_field='image_ppoi')
     image_ppoi = PPOIField()
 
+    description = models.TextField(max_length=140, blank=True, help_text="140 characters or fewer.")
+
     text = MarkdownField(rendered_field='text_rendered', validator=VALIDATOR_CLASSY)
     text_rendered = RenderedMarkdownField()
 
@@ -45,7 +47,7 @@ class Post(PublishedAbstractModel):
         data = {
             '@type': 'BlogPosting',
             'headline': self.title,
-            'description': Truncator(strip_tags(self.text_rendered)).chars(200),
+            'description': self.description or Truncator(strip_tags(self.text_rendered)).chars(200),
             'author': {
                 '@type': 'Person',
                 'name': self.author

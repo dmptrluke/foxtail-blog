@@ -1,5 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 
+from published.utils import queryset_filter
+
 from .models import Post
 
 
@@ -8,7 +10,7 @@ class PostSitemap(Sitemap):
     changefreq = "daily"
 
     def items(self):
-        return Post.objects.all()
+        return queryset_filter(Post.objects).all()
 
     def lastmod(self, obj):
         return obj.modified
