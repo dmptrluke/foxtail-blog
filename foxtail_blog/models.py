@@ -62,7 +62,12 @@ class Post(PublishedAbstractModel):
             },
         }
         if self.image:
-            data['image'] = settings.SITE_URL + self.image.url
+            data['image'] = {
+                '@type': 'ImageObject',
+                'url': settings.SITE_URL + self.image.url,
+                'height': self.image.height,
+                'width': self.image.width
+            }
 
         return data
 
