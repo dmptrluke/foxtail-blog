@@ -1,17 +1,21 @@
-from django.conf import settings
 from django.forms import ModelForm, Textarea
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from csp_helpers.mixins import CSPFormMixin
 
+from . import settings as app_settings
 from .models import Comment
 
 
 class CommentForm(CSPFormMixin, ModelForm):
-    if settings.RECAPTCHA_ENABLED:
-        captcha = ReCaptchaField()
+    if app_settings.RECAPTCHA_ENABLED:
+        if app_settings.RECAPTCHA_INVISIBLE:
+            captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+        else:
+            captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -24,7 +28,7 @@ class CommentForm(CSPFormMixin, ModelForm):
 
         self.helper.layout = Layout(
             'text',
-            'captcha' if settings.RECAPTCHA_ENABLED else None,
+            'captcha' if app_settings.RECAPTCHA_ENABLED else None,
             Submit('Post Comment', 'Post Comment')
         )
 
