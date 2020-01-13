@@ -1,7 +1,9 @@
-from factory import DjangoModelFactory, Faker
+from django.contrib.auth import get_user_model
+
+from factory import DjangoModelFactory, Faker, Iterator
 from published.constants import AVAILABLE
 
-from ..models import Post
+from ..models import Comment, Post
 
 
 class PostFactory(DjangoModelFactory):
@@ -20,3 +22,14 @@ class PostFactory(DjangoModelFactory):
 
     class Meta:
         model = Post
+
+
+class CommentFactory(DjangoModelFactory):
+    post = Iterator(Post.objects.all())
+    author = Iterator(get_user_model().objects.all())
+
+    text = Faker('paragraph')
+    created = Faker('date_time_this_year')
+
+    class Meta:
+        model = Comment

@@ -80,7 +80,7 @@ class Comment(models.Model):
                                on_delete=models.CASCADE, )
 
     text = models.TextField(max_length=280, help_text="280 characters or fewer.")
-    created_date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):

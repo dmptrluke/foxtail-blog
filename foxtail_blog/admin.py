@@ -49,7 +49,7 @@ class PostAdmin(PublishedAdmin):
 
 
 class CommentAdmin(ModelAdmin):
-    list_display = ('text_preview', 'post_link', 'author', 'created_date')
+    list_display = ('text_preview', 'post_link', 'author', 'created')
     raw_id_fields = ('author',)
 
     def post_link(self, obj):
