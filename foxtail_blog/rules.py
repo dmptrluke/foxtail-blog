@@ -3,8 +3,11 @@ from rules import is_group_member, predicate
 
 # BASIC ACCESS RULES
 @predicate
-def is_author(user, obj):
-    return obj.author == user
+def is_author(user, obj=None):
+    if obj:
+        return obj.author == user
+    else:
+        return False
 
 
 is_moderator = is_group_member('moderators')
