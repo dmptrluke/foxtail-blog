@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -7,12 +8,15 @@ from django.utils.text import Truncator
 
 from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
-from published.models import PublishedAbstractModel
+from published.models import PublishedModel
+from rules.contrib.models import RulesModel
 from taggit.managers import TaggableManager
 from versatileimagefield.fields import PPOIField, VersatileImageField
 
+from . import rules
 
-class Post(PublishedAbstractModel):
+
+class Post(PublishedModel):
     title = models.CharField(max_length=100, help_text="100 characters or fewer.")
     slug = models.SlugField(unique=True, help_text="Changing this value after initial creation will break existing "
                                                    "post URLs. Must be unique.")
@@ -72,16 +76,19 @@ class Post(PublishedAbstractModel):
         return data
 
 
-class Comment(models.Model):
-    post = models.ForeignKey('foxtail_blog.Post',
-                             on_delete=models.CASCADE, related_name='comments')
-
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               on_delete=models.CASCADE, )
+class Comment(RulesModel):
+    post = models.ForeignKey('foxtail_blog.Post', on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     text = models.TextField(max_length=280, help_text="280 characters or fewer.")
     created = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
+
+    class Meta:
+        rules_permissions = {
+            'change': rules.is_owner_or_editor,
+            'delete': rules.is_owner_or_moderator
+        }
 
     def __str__(self):
         return self.text

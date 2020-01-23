@@ -9,6 +9,7 @@ from django.views.generic import DeleteView, DetailView, ListView
 
 from published.mixins import PublishedDetailMixin, PublishedListMixin
 from published.utils import queryset_filter
+from rules.contrib.views import AutoPermissionRequiredMixin
 
 from .models import Comment, Post
 
@@ -118,15 +119,12 @@ class BlogDetailView(PublishedDetailMixin, DetailView):
         return self.render_to_response(context)
 
 
-class CommentDeleteView(LoginRequiredMixin, DeleteView):
+class CommentDeleteView(AutoPermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Comment
     template_name = 'blog/comment_delete.html'
 
     def delete(self, request, *args, **kwargs):
         comment = self.get_object()
-
-        if not (comment.author == request.user or request.user.has_perm('foxtail_blog.delete_comment')):
-            return HttpResponseForbidden()
 
         slug = comment.post.slug
         comment.delete()
