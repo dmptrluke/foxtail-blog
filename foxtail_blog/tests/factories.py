@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 
-from factory import DjangoModelFactory, Faker, Iterator
+from factory import Faker, Iterator
+from factory.django import DjangoModelFactory
 from published.constants import AVAILABLE
 
 from ..models import Comment, Post
