@@ -1,5 +1,5 @@
 [build-system]
-requires = ["flit_core >=2,<3"]
+requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
@@ -20,9 +20,9 @@ classifiers = [
 author = "Luke Rogers"
 author-email = "luke@dmptr.com"
 home-page = "https://github.com/dmptrluke/foxtail-blog"
-requires-python=">=3.6"
+requires-python=">=3.11"
 requires = [
-    'django>=2.2,<4',
+    'django>=4',
     'django-markdownfield>=0.6.1',
     'django-taggit',
     'django-versatileimagefield',
