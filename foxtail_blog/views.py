@@ -128,7 +128,7 @@ class CommentDeleteView(AutoPermissionRequiredMixin, LoginRequiredMixin, DeleteV
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:detail', slug=self.post.object.slug) 
+        return reverse('blog:detail', kwargs={'slug': self.object.post.slug})
 
 
 __all__ = ['BlogListView', 'BlogDetailView', 'CommentDeleteView']
