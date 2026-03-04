@@ -11,7 +11,7 @@ from published.mixins import PublishedDetailMixin, PublishedListMixin
 from published.utils import queryset_filter
 from rules.contrib.views import AutoPermissionRequiredMixin
 
-from .models import Comment, Post
+from .models import Comment, Post, reverse
 
 COMMENTS_ENABLED = getattr(settings, 'BLOG_COMMENTS', False)
 
@@ -123,13 +123,12 @@ class CommentDeleteView(AutoPermissionRequiredMixin, LoginRequiredMixin, DeleteV
     model = Comment
     template_name = 'blog/comment_delete.html'
 
-    def delete(self, request, *args, **kwargs):
-        comment = self.get_object()
-
-        slug = comment.post.slug
-        comment.delete()
+    def form_valid(self, form):
         messages.success(self.request, 'Your comment has been deleted.')
-        return redirect('blog:detail', slug=slug)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('blog:detail', slug=self.post.object.slug) 
 
 
 __all__ = ['BlogListView', 'BlogDetailView', 'CommentDeleteView']
